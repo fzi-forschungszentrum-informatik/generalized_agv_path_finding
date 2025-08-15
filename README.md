@@ -87,6 +87,9 @@ Do the steps above to create a development environment and in the activated envi
 pytest
 ```
 
+The first test run will take some minutes, because the graphs for each means of transport has to be extracted from
+eh `.osm.pbf` file, but those are cached such that subsequent test runs are much faster.
+
 ### Type Checking
 
 This package is dynamically type checked at runtime using [`beartype`](https://github.com/beartype/beartype).
