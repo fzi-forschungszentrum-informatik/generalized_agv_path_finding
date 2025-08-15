@@ -41,7 +41,7 @@ def test_create_path_finder_for_lif_and_routing_kit():
 
 
 def test_create_path_finder_for_mfn_and_astar():
-    data_provider = MfnDataProvider(current_path / "formats/mfn_excel/2025-04-04_Template_Routing_Input_UKF.xlsx",
+    data_provider = MfnDataProvider(current_path / "formats/mfn_excel/MFN_example.xlsx",
                                     fleet="Roboter")
     algo = create_path_finder(data_provider, Algorithm.A_STAR)
     assert isinstance(algo, AStar)
@@ -55,7 +55,7 @@ def test_create_path_finder_for_mfn_and_astar():
 
 
 def test_create_path_finder_for_mfn_and_routing_kit():
-    data_provider = MfnDataProvider(current_path / "formats/mfn_excel/2025-04-04_Template_Routing_Input_UKF.xlsx",
+    data_provider = MfnDataProvider(current_path / "formats/mfn_excel/MFN_example.xlsx",
                                     fleet="Roboter")
     algo = create_path_finder(data_provider, Algorithm.ROUTING_KIT)
     assert isinstance(algo, PathFinder)
@@ -103,7 +103,7 @@ def test_create_path_finder_with_auto():
     assert isinstance(algo, AStar)
 
     # few nodes
-    data_provider = MfnDataProvider(current_path / "formats/mfn_excel/2025-04-04_Template_Routing_Input_UKF.xlsx",
+    data_provider = MfnDataProvider(current_path / "formats/mfn_excel/MFN_example.xlsx",
                                     fleet="Roboter")
     algo = create_path_finder(data_provider)
     assert isinstance(algo, AStar)
