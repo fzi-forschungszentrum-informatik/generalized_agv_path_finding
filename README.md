@@ -53,7 +53,19 @@ The library is structured in three layers:
 
 ## Development Installation
 
-For now, this uses a virtual environment using Python 3.13 and the packages in requirements.txt.
+This repository includes the library PyRoutingKit by Laura Doerr and Martin Pouls, who granted their permission to
+release this.
+RoutingKit itself is included as a git submodule.
+
+To get this repository including the submodule, run:
+
+```shell
+git clone https://github.com/fzi-forschungszentrum-informatik/generalized_agv_path_finding.git
+cd generalized_agv_path_finding
+git submodule update --init --recursive
+```
+
+For now, this package uses a virtual environment using Python 3.13 and the packages in requirements.txt.
 Frankly, the Pixi configuration in `pyproject.yaml` is dysfunctional at this moment.
 
 ```shell
@@ -61,30 +73,12 @@ virtualenv .venv
 ./.venv/Scripts/activate # on Windows
 source ./.venv/bin/activate # on Linux/macOS
 pip install -r requirements.txt
-pip install -e . # install local package for tests to discover
-```
-
-[//]: # (TODO: update requirements.txt to use github urls only)
-
-This includes the library PyRoutingKit by Laura Doerr and Martin Pouls, who granted their permission to release this.
-
-RoutingKit itself is included as a git submodule.
-You automatically get you clone this repository using `--recurse-submodules` like this
-
-```shell
-git clone --recurse-submodules https://github.com/fzi-forschungszentrum-informatik/generalized_agv_path_finding.git
-```
-
-or by updating it after cloning:
-
-```shell
-git submodule update --init --recursive
 ```
 
 ## Testing
 
 The OSM test data is not directly included in this repository.
-Before running tests put `andorra-latest.osm.pbf` into tests/formats/osm (you can get it from
+Before running tests, put `andorra-latest.osm.pbf` into `tests/formats/osm` (you can get it from
 https://download.geofabrik.de/europe/andorra-latest.osm.pbf for example).
 
 Do the steps above to create a development environment and in the activated environment, run:
@@ -92,8 +86,6 @@ Do the steps above to create a development environment and in the activated envi
 ```shell
 pytest
 ```
-
-PyCharm's auto-discovery is also able to find the tests when given the root directory of this repository.
 
 ### Type Checking
 
