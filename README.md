@@ -65,7 +65,7 @@ cd generalized_agv_path_finding
 git submodule update --init --recursive
 ```
 
-You can install all dependencies using Pixi:
+You can install all dependencies using [Pixi](https://pixi.sh/latest/):
 
 ```shell
 pixi install
