@@ -65,8 +65,14 @@ cd generalized_agv_path_finding
 git submodule update --init --recursive
 ```
 
-For now, this package uses a virtual environment using Python 3.13 and the packages in requirements.txt.
-Frankly, the Pixi configuration in `pyproject.yaml` is dysfunctional at this moment.
+You can install all dependencies using Pixi:
+
+```shell
+pixi install
+```
+
+Alternatively, this package can be installed using a virtual environment using Python 3.13 and the packages in
+`requirements.txt`, like this:
 
 ```shell
 virtualenv .venv
@@ -81,13 +87,9 @@ The OSM test data is not directly included in this repository.
 Before running tests, put `andorra-latest.osm.pbf` into `tests/formats/osm` (you can get it from
 https://download.geofabrik.de/europe/andorra-latest.osm.pbf for example).
 
-Do the steps above to create a development environment and in the activated environment, run:
+Then run `pixi run test` or activate the virtual environment and run `pytest`.
 
-```shell
-pytest
-```
-
-The first test run will take some minutes, because the graphs for each means of transport has to be extracted from
+The first test run will take some minutes, because the graphs for each means of transport have to be extracted from
 eh `.osm.pbf` file, but those are cached such that subsequent test runs are much faster.
 
 ### Type Checking
