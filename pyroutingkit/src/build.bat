@@ -1,0 +1,1 @@
+python -m build && twine upload -r ipe-pypi dist/*

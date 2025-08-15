@@ -1,0 +1,36 @@
+stages:
+  - deploy
+
+deploy:
+  image: python:3.8
+  stage: deploy
+  rules:
+    - changes:
+        - src/pyproject.toml
+  # make a docker daemon available for cibuildwheel to use
+  services:
+    - name: docker:18.09.7-dind
+      entrypoint: ["env", "-u", "DOCKER_HOST"]
+      command: ["dockerd-entrypoint.sh"]
+      alias: docker
+  variables:
+    DOCKER_DRIVER: overlay2
+    # See https://github.com/docker-library/docker/pull/166
+    DOCKER_TLS_CERTDIR: ""
+    GIT_SSL_NO_VERIFY: "1"
+    CIBW_SKIP: "pp* *i686"
+    GIT_SUBMODULE_STRATEGY: recursive
+  before_script:
+    - apt-get update -qq && apt-get install -y -qq curl  
+  script:
+    - cp .pypirc $HOME/.pypirc  
+    - curl -sSL https://get.docker.com/ | sh
+    - cd ./src
+    - python -m pip install cibuildwheel==2.16.2 build==1.0.3 twine==4.0.2
+    - cibuildwheel --output-dir dist
+    - python -m build . --sdist
+    - python -m twine upload -r ipe-dmz dist/*
+  artifacts:
+    paths:
+      - src/dist/
+    expire_in: 1 day

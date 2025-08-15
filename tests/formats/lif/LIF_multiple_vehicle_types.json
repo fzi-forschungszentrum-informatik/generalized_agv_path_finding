@@ -1,0 +1,118 @@
+{
+  "metaInformation": {
+    "projectIdentification": "LIF Single Edge Test",
+    "exportTimestamp": "2024-11-26 12:58:51.426221",
+    "lifVersion": "1.0.0",
+    "creator": ""
+  },
+  "layouts": [
+    {
+      "layoutId": "map1",
+      "nodes": [
+        {
+          "nodeId": "N1",
+          "nodeName": "",
+          "mapId": "map1",
+          "nodePosition": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "vehicleTypeNodeProperties": [
+            {
+              "vehicleTypeId": "robot",
+              "theta": 0.0,
+              "actions": []
+            },
+            {
+              "vehicleTypeId": "human",
+              "theta": 0.0,
+              "actions": []
+            }
+          ]
+        },
+        {
+          "nodeId": "N2",
+          "nodeName": "",
+          "mapId": "map1",
+          "nodePosition": {
+            "x": 1.0,
+            "y": 1.0
+          },
+          "vehicleTypeNodeProperties": [
+            {
+              "vehicleTypeId": "robot",
+              "theta": 0.0,
+              "actions": []
+            }
+          ]
+        },
+        {
+          "nodeId": "N3",
+          "nodeName": "",
+          "mapId": "map1",
+          "nodePosition": {
+            "x": 2.0,
+            "y": 0.5
+          },
+          "vehicleTypeNodeProperties": [
+            {
+              "vehicleTypeId": "robot",
+              "theta": 0.0,
+              "actions": []
+            },
+            {
+              "vehicleTypeId": "human",
+              "theta": 0.0,
+              "actions": []
+            }
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "edgeId": "E-1-2",
+          "edgeName": "",
+          "startNodeId": "N1",
+          "endNodeId": "N2",
+          "vehicleTypeEdgeProperties": [
+            {
+              "vehicleTypeId": "robot",
+              "rotationAllowed": true,
+              "maxSpeed": 1.0,
+              "actions": []
+            }
+          ]
+        },
+        {
+          "edgeId": "E-1-3",
+          "edgeName": "",
+          "startNodeId": "N1",
+          "endNodeId": "N3",
+          "vehicleTypeEdgeProperties": [
+            {
+              "vehicleTypeId": "human",
+              "rotationAllowed": true,
+              "maxSpeed": 1.0,
+              "actions": []
+            }
+          ]
+        },
+        {
+          "edgeId": "E-3-2",
+          "edgeName": "",
+          "startNodeId": "N3",
+          "endNodeId": "N2",
+          "vehicleTypeEdgeProperties": [
+            {
+              "vehicleTypeId": "human",
+              "rotationAllowed": true,
+              "maxSpeed": 1.0,
+              "actions": []
+            }
+          ]
+        }
+      ],
+      "stations": []
+    }
+  ]
+}

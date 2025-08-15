@@ -1,0 +1,22 @@
+#IDE
+.idea
+
+#python
+__pycache__/
+
+#packaging
+dist
+*.egg-info/
+*.egg
+
+#venv
+.venv
+# pixi environments
+.pixi
+*.egg-info
+
+LIF_spec.pdf
+
+/tests/**/*.ch
+/tests/**/*.graph
+/tests/**/*.pbf

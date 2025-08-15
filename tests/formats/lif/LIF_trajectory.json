@@ -1,0 +1,164 @@
+{
+  "metaInformation": {
+    "projectIdentification": "LIF Example 17",
+    "creator": "VDMA",
+    "exportTimestamp": "2023-09-28T10:00:00.00Z",
+    "lifVersion": "1.0.0"
+  },
+  "layouts": [
+    {
+      "layoutId": "Layout_Ground_Level",
+      "layoutName": "Name of Layout Ground Level",
+      "layoutVersion": "1",
+      "layoutDescription": "Ground level of Customer",
+      "nodes": [
+        {
+          "nodeId": "N1",
+          "mapId": "Map_Z-Level_1",
+          "nodePosition": {
+            "x": 5.0,
+            "y": 0.0
+          },
+          "vehicleTypeNodeProperties": [
+            {
+              "vehicleTypeId": "Vehicle_Type_1"
+            }
+          ]
+        },
+        {
+          "nodeId": "N2",
+          "mapId": "Map_Z-Level_1",
+          "nodePosition": {
+            "x": 15.0,
+            "y": 0.0
+          },
+          "vehicleTypeNodeProperties": [
+            {
+              "vehicleTypeId": "Vehicle_Type_1"
+            }
+          ]
+        },
+        {
+          "nodeId": "N3",
+          "mapId": "Map_Z-Level_1",
+          "nodePosition": {
+            "x": 10.0,
+            "y": 5.0
+          },
+          "vehicleTypeNodeProperties": [
+            {
+              "vehicleTypeId": "Vehicle_Type_1"
+            }
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "edgeId": "E-1-2",
+          "startNodeId": "N1",
+          "endNodeId": "N2",
+          "vehicleTypeEdgeProperties": [
+            {
+              "vehicleTypeId": "Vehicle_Type_1",
+              "vehicleOrientation": -1.5707963267948966,
+              "orientationType": "TANGENTIAL",
+              "rotationAllowed": false,
+              "rotationAtStartNodeAllowed": "BOTH",
+              "rotationAtEndNodeAllowed": "BOTH",
+              "trajectory": {
+                "degree": 2,
+                "knotVector": [
+                  0,
+                  0,
+                  0,
+                  0.5,
+                  1,
+                  1,
+                  1
+                ],
+                "controlPoints": [
+                  {
+                    "x": 0,
+                    "y": 0
+                  },
+                  {
+                    "x": 0,
+                    "y": 1.8
+                  },
+                  {
+                    "x": 3.6,
+                    "y": 1.8
+                  },
+                  {
+                    "x": 3.6,
+                    "y": 0
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "edgeId": "E-2-1",
+          "startNodeId": "N2",
+          "endNodeId": "N1",
+          "vehicleTypeEdgeProperties": [
+            {
+              "vehicleTypeId": "Vehicle_Type_1",
+              "vehicleOrientation": 1.5707963267948966,
+              "orientationType": "TANGENTIAL",
+              "rotationAllowed": false,
+              "rotationAtStartNodeAllowed": "BOTH",
+              "rotationAtEndNodeAllowed": "BOTH",
+              "trajectory": {
+                "degree": 2,
+                "knotVector": [
+                  0,
+                  0,
+                  0,
+                  0.5,
+                  1,
+                  1,
+                  1
+                ],
+                "controlPoints": [
+                  {
+                    "x": 3.6,
+                    "y": 0
+                  },
+                  {
+                    "x": 3.6,
+                    "y": -1.8
+                  },
+                  {
+                    "x": 0,
+                    "y": -1.8
+                  },
+                  {
+                    "x": 0,
+                    "y": 0
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "edgeId": "E-1-3",
+          "startNodeId": "N1",
+          "endNodeId": "N3",
+          "vehicleTypeEdgeProperties": [
+            {
+              "vehicleTypeId": "Vehicle_Type_1",
+              "vehicleOrientation": 0,
+              "orientationType": "TANGENTIAL",
+              "rotationAllowed": false,
+              "rotationAtStartNodeAllowed": "BOTH",
+              "rotationAtEndNodeAllowed": "BOTH"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

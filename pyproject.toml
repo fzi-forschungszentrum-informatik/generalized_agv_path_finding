@@ -1,0 +1,40 @@
+[project]
+name = "generalized-path-finding"
+version = "0.0.1"
+authors = [
+    { name = "FZI", email = "stampa@fzi.de" },
+    { name = "Linus Schöb", email = "dev@linusschoeb.de" }
+]
+description = "library for reading various formats for logistics networks and finding shortest paths in them"
+readme = "README.md"
+license = "MIT"
+dependencies = ["geomdl>=5.4.0,<6", "auto-all>=1.4.1,<2", "networkx~=3.4.2", "pytest>=8.4.0,<9"]
+requires-python = "~=3.13"
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["win-64"]
+
+[tool.pixi.pypi-dependencies]
+generalized_path_finding = { path = ".", editable = true }
+
+[tool.pixi.tasks]
+test = "pytest"
+
+[tool.pixi.dependencies]
+openpyxl = ">=3.1.5,<4"
+beartype = ">=0.21.0,<0.22"
+python = "3.13.*"
+pixi-pycharm = ">=0.0.8,<0.0.9"
+geopy = ">=2.4.1,<3"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "test",
+]

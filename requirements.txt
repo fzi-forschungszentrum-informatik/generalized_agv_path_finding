@@ -1,0 +1,18 @@
+auto-all==1.4.1
+beartype==0.21.0
+colorama==0.4.6
+coverage==7.9.2
+et_xmlfile==2.0.0
+-e git+https://lsogit.fzi.de/LSO/Alltours/generalized-path-finding.git@d0ea934ac18063851ecae937ae6568d42a63330f#egg=generalized_path_finding
+geomdl==5.4.0
+geopy~=2.4.1
+hatchling==1.27.0
+iniconfig==2.1.0
+networkx==3.4.2
+openpyxl==3.1.5
+packaging==25.0
+pathspec==0.12.1
+pluggy==1.6.0
+Pygments==2.19.1
+pytest==8.4.0
+trove-classifiers==2025.5.9.12
