@@ -113,7 +113,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/pandas-2.3.1-py313hc90dcd4_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/pcre2-10.45-h99c9b8b_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/pillow-11.3.0-py313h641beac_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/pixi-pycharm-0.0.8-win_1234567_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/noarch/pixi-pycharm-0.0.9-win_hba80fca_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/pixman-0.46.4-h5112557_1.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/proj-9.6.2-h4f671f6_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/pthread-stubs-0.4-h0e40799_1002.conda
@@ -567,7 +567,7 @@ packages:
 - pypi: ./
   name: generalized-path-finding
   version: 0.0.1
-  sha256: 4c19cf39740493c691e926a1ef8fdacac85da661a28e6b6368c58515f5c83866
+  sha256: 18d9f77f3a3fd5a841aeaaf856dbb0b6be5c7d68068c546a005e820ad6e883d4
   requires_dist:
   - geomdl>=5.4.0,<6
   - auto-all>=1.4.1,<2
@@ -1754,17 +1754,17 @@ packages:
   - pkg:pypi/pillow?source=hash-mapping
   size: 42177350
   timestamp: 1751482641943
-- conda: https://conda.anaconda.org/conda-forge/noarch/pixi-pycharm-0.0.8-win_1234567_0.conda
-  sha256: 6ee9dbad2c363faefea73e21370301e16290a2a88230787267e4f34b67ca40e8
-  md5: 352a583506f7ac90d984e9a501e500f7
+- conda: https://conda.anaconda.org/conda-forge/noarch/pixi-pycharm-0.0.9-win_hba80fca_0.conda
+  sha256: 22c6fedb771249e8b9723a916a3dc558b74681d3d8c2f118667cba81851f2002
+  md5: de239ce0ba6c1b8d4bdd791650d8067c
   depends:
   - __win
   - python >=3.8
   license: BSD-3-Clause
   license_family: BSD
   purls: []
-  size: 8671
-  timestamp: 1728816803806
+  size: 6687
+  timestamp: 1758810287418
 - conda: https://conda.anaconda.org/conda-forge/win-64/pixman-0.46.4-h5112557_1.conda
   sha256: 246fce4706b3f8b247a7d6142ba8d732c95263d3c96e212b9d63d6a4ab4aff35
   md5: 08c8fa3b419df480d985e304f7884d35
