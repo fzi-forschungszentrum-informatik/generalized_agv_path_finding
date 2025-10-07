@@ -22,7 +22,7 @@ The library is structured in three layers:
 
 1. **DataProvider**: There are [`DataProvider`](./src/generalized_path_finding/model/data_provider.py)s for different
    file formats of networks. Currently supported are:
-    - [Layer Interchange Format][LIF] (by VDMA - Verband Deutscher Maschinen- und Anlagenbau e. V.)
+    - [Layout Interchange Format][LIF] (by VDMA - Verband Deutscher Maschinen- und Anlagenbau e. V.)
     - Multi Floor Network Excel Schema (used in MediCar 4.0, see examples in [tests/formats/mfn_excel](.
       /tests/formats/mfn_excel))
     - Open Street Map extracts in `.pbf`-files (retreivable from e.g. [Geofabrik](https://download.geofabrik.de/)
@@ -90,7 +90,7 @@ https://download.geofabrik.de/europe/andorra-latest.osm.pbf for example).
 Then run `pixi run test` or activate the virtual environment and run `pytest`.
 
 The first test run will take some minutes, because the graphs for each means of transport have to be extracted from
-eh `.osm.pbf` file, but those are cached such that subsequent test runs are much faster.
+the `.osm.pbf` file, but those are cached such that subsequent test runs are much faster.
 
 ### Type Checking
 
