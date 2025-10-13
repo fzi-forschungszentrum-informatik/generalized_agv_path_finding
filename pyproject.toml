@@ -1,6 +1,6 @@
 [project]
 name = "generalized-path-finding"
-version = "0.0.1"
+version = "0.1.0"
 authors = [
     { name = "FZI", email = "stampa@fzi.de" },
     { name = "Linus Schöb", email = "dev@linusschoeb.de" }
