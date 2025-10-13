@@ -42,10 +42,9 @@ def test_edge_weights():
 
 
 def test_with_time_cost():
-    #no local speed limits
-    speed = 2.0
-    dp = MfnDataProvider(current_path / "MFN_example.xlsx", time_cost=True,
-                         fleet_max_speed=speed, fleet="Roboter")
+    #no local speed limits, speed should be read from fleets parameter
+    speed = 0.5
+    dp = MfnDataProvider(current_path / "MFN_example.xlsx", time_cost=True, fleet="Roboter")
     graph = dp.get_networkx_data().graph
 
     assert isinstance(graph, MultiDiGraph)
@@ -62,6 +61,12 @@ def test_impute_fleet():
     dp.get_networkx_data()  # make it actually convert the graph and select the fleet
 
     assert dp.fleet == "roboter"
+
+
+def test_non_existing_fleet_name():
+    dp = MfnDataProvider(current_path / "MFN_example.xlsx", fleet="Test")
+    with pytest.raises(ValueError):
+        dp.get_networkx_data()
 
 
 def test_multiple_vehicles():
@@ -96,14 +101,6 @@ def test_multiple_vehicles():
 
     assert "fleet" in str(e)
 
-    # non-occurring fleet given
-    with pytest.warns(UserWarning) as record:
-        data_provider = MfnDataProvider(current_path / "MFN_example.xlsx", fleet="Aliens")
-        data_provider.get_networkx_data()  # make it actually convert the graph
-
-    assert len(record) == 1
-    assert "fleet" in str(record[0].message)
-
 
 def test_heuristic():
     dp = MfnDataProvider(current_path / "MFN_example.xlsx", fleet="Roboter")
@@ -119,7 +116,6 @@ def test_heuristic_with_time_cost():
     speed = 0.5
     dp = MfnDataProvider(current_path / "MFN_example.xlsx",
                          time_cost=True,
-                         fleet_max_speed=speed,
                          fleet="Roboter")
 
     heuristic = dp.get_networkx_data().heuristic
@@ -158,14 +154,3 @@ def test_heuristic_with_priority():
 
     assert callable(heuristic)
     assert math.isclose(heuristic("1-E0", "2-E0"), DIST_1_2 * 2, rel_tol=1e-6)
-
-
-def test_infinite_speed():
-    dp = MfnDataProvider(current_path / "MFN_example.xlsx",
-                         time_cost=True,
-                         fleet_max_speed=float("infinity"),
-                         fleet="Roboter")
-
-    with pytest.raises(ValueError) as e:
-        dp.get_networkx_data()
-    assert "speed" in str(e)

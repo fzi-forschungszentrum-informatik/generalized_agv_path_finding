@@ -4,6 +4,7 @@ import pathlib
 import pytest
 
 from generalized_path_finding.formats.mfn_excel.connection import Connection
+from generalized_path_finding.formats.mfn_excel.fleet import Fleet
 from generalized_path_finding.formats.mfn_excel.mfn import MFN
 from generalized_path_finding.formats.mfn_excel.node import Node
 from generalized_path_finding.formats.mfn_excel.path import Path
@@ -32,8 +33,19 @@ def test_parsing():
         Connection(name='Connection1', origin_node_name='1-E1', destination_node_name='1-E0',
                    cal_trans_duration_seconds=90, fleets='Roboter | Besucher')]
 
+    assert mfn.fleets == [Fleet(name='Roboter', avg_speed_mps=0.5), Fleet(name='Besucher', avg_speed_mps=0.4)]
+
 
 def test_missing_sheet():
     with pytest.raises(ValueError) as e:
         mfn = MFN(current_path / "MFN_missing_sheet.xlsx")
     assert "sheet" in str(e.value)
+
+
+def test_parsing_with_different_order_and_additional_columns():
+    mfn = MFN(current_path / "MFN_changed_order.xlsx")
+
+    assert mfn.nodes == [
+        Node(name='NodeA', x_meter=20.0, y_meter=30.0, z_meter=0),
+        Node(name='NodeB', x_meter=50.0, y_meter=30.0, z_meter=0),
+        Node(name='NodeC', x_meter=80.0, y_meter=30.0, z_meter=0)]

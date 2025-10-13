@@ -8,6 +8,7 @@ import networkx as nx
 from generalized_path_finding.model.data_provider import NetworkxDataProvider
 from generalized_path_finding.model.networkx_data import NetworkxData
 from .connection import Connection
+from .fleet import Fleet
 from .mfn import MFN
 from .path import Path
 
@@ -86,7 +87,6 @@ class MfnDataProvider(NetworkxDataProvider[str]):
             path: str | pathlib.Path,
             fleet: str = None,
             time_cost: bool = False,
-            fleet_max_speed: float = float("infinity"),
             priority_factor: Callable[[int | None], float] = lambda prio: 1,
     ):
         """
@@ -96,8 +96,6 @@ class MfnDataProvider(NetworkxDataProvider[str]):
         :param fleet: the fleet type name from whose view to look at the layout,
             can be omitted if all paths and connections only name the same set of fleets.
         :param time_cost: whether to use time instead of distance as cost
-        :param fleet_max_speed: the maximum speed of vehicles of the given fleet
-            (only relevant if time_cost is ``True``)
         :param priority_factor: function taking a priority and returning a value by which to scale the cost of a path
             that has that priority. Because prio is an optional field, this function must also map None.
             Defaults to `lambda prio: 1`, ignoring priority.
@@ -106,7 +104,6 @@ class MfnDataProvider(NetworkxDataProvider[str]):
 
         self.fleet = fleet
         self.time_cost = time_cost
-        self.vehicle_max_speed = fleet_max_speed
         self.priority_factor = priority_factor
 
         # not checking infinite speed limit here, because it's checked more granularly in _mfn_to_graph._path_cost
@@ -116,6 +113,7 @@ class MfnDataProvider(NetworkxDataProvider[str]):
         self._graph = None
         self._heuristic = None
         self._min_priority_factor = None
+        self._vehicle_max_speed = None
 
     def get_networkx_data(self) -> NetworkxData[str]:
         return NetworkxData(self._get_graph(), self._get_heuristic())
@@ -124,10 +122,11 @@ class MfnDataProvider(NetworkxDataProvider[str]):
         if self._graph is not None: return self._graph
 
         self._mfn = MFN(self.path)
-
         self._impute_fleet()
+        fleet = self._get_fleet_by_name()
+        self._vehicle_max_speed = fleet.avg_speed_mps
         self._graph = _mfn_to_graph(self._mfn, self.fleet, self.time_cost,
-                                    self.vehicle_max_speed, self.priority_factor)
+                                    fleet.avg_speed_mps, self.priority_factor)
 
         # can handle prio=None as well
         self._min_priority_factor = min(self.priority_factor(path.prio) for path in self._mfn.paths)
@@ -154,6 +153,14 @@ class MfnDataProvider(NetworkxDataProvider[str]):
                 raise RuntimeError("There is more than one fleet-list in the MFN Excel file. Specify the vehicle "
                                    "type using `MfnDataProvider(vehicle_type_id=...)`")
 
+    def _get_fleet_by_name(self) -> Fleet:
+        fleet_name = self.fleet
+        fleet = next((fleet for fleet in self._mfn.fleets if fleet.name.lower() == fleet_name.lower()), None)
+        if fleet is None:
+            raise ValueError(f"Fleet '{fleet_name}' not found")
+        return fleet
+
+
     def _get_heuristic(self) -> Callable[[str, str], float]:
         if self._heuristic is not None: return self._heuristic
         self._get_graph()
@@ -162,7 +169,7 @@ class MfnDataProvider(NetworkxDataProvider[str]):
             return euclidean_distance(
                 self._graph.nodes[a]["mfn_node"],
                 self._graph.nodes[b]["mfn_node"]
-            ) / (self.vehicle_max_speed if self.time_cost else 1.0) * self._min_priority_factor
+            ) / (self._vehicle_max_speed if self.time_cost else 1.0) * self._min_priority_factor
 
         self._heuristic = heuristic
         return self._heuristic
