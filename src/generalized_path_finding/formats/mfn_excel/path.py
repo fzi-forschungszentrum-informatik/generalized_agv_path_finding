@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Optional
 
 from auto_all import public
 
@@ -31,7 +31,13 @@ class Path:
     The name of the destination/target Node of the Path.
     """
 
-    network: str
+
+    fleets: str
+    """
+    A pipe ("|") separated list of identifiers of the types of vehicles that can travers this Path.
+    """
+
+    network: Optional[str] = None
     """
     Identifier of the network this Node resides in.
     
@@ -39,19 +45,19 @@ class Path:
     Both the origin node and the destination node must also be in the same network as this Path. 
     """
 
-    origin_id: int | None
+    origin_id: Optional[int] = None
     """
     The index of the origin node of the Path.
     Redundant with origin_node_name.
     """
 
-    dest_id: int | None
+    dest_id: Optional[int] = None
     """
     The index of the destination node of the Path.
     Redundant with destination_node_name.
     """
 
-    prio: int | None
+    prio: Optional[int] = None
     """
     The priority of the Path (prefer lower priority in path finding).
     
@@ -61,24 +67,20 @@ class Path:
     3 indicates paths that can only be accessed with explicit permission.
     """
 
-    speed_limit_mps: float | None
+    speed_limit_mps: Optional[float] = None
     """
     The speedlimit of vehicles on this Path in meters per second.
     """
 
-    description: str | None
-    color: str | None
-    controls: Any | None
+    description: Optional[str] = None
+    color: Optional[str] = None
+    controls: Optional[Any] = None
 
-    pedestrians: str | None
+    pedestrians: Optional[str] = None
     """
     What kind of pedestrians also use this Path.
     """
 
-    fleets: str
-    """
-    A pipe ("|") separated list of identifiers of the types of vehicles that can travers this Path.
-    """
 
     def __post_init__(self):
         self.fleet_list = parse_fleets_list(self.fleets)

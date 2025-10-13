@@ -42,6 +42,7 @@ def test_edge_weights():
 
 
 def test_with_time_cost():
+    #no local speed limits
     speed = 2.0
     dp = MfnDataProvider(current_path / "MFN_example.xlsx", time_cost=True,
                          fleet_max_speed=speed, fleet="Roboter")
@@ -51,7 +52,7 @@ def test_with_time_cost():
     assert math.isclose(graph.edges['1-E0', '2-E0', 'Path_1A']['weight'], DIST_1_2 / speed, rel_tol=1e-6)
     assert math.isclose(graph.edges['2-E0', '1-E0', 'Path_1B']['weight'], DIST_1_2 / speed, rel_tol=1e-6)
     assert math.isclose(graph.edges['2-E0', '3-E0', 'Path_2A']['weight'], DIST_2_3 / speed, rel_tol=1e-6)
-    assert math.isclose(graph.edges['3-E0', '2-E0', 'Path_2B']['weight'], DIST_2_3 / 0.5, rel_tol=1e-6)  # local limit
+    assert math.isclose(graph.edges['3-E0', '2-E0', 'Path_2B']['weight'], DIST_2_3 / speed, rel_tol=1e-6)
     assert graph.edges['1-E0', '1-E1', 'Connection1']['weight'] == 90
     assert graph.edges['1-E1', '1-E0', 'Connection1']['weight'] == 90
 
@@ -127,7 +128,7 @@ def test_heuristic_with_time_cost():
     # Test heuristic between nodes 1-E0 and 2-E0 with time cost
     assert math.isclose(heuristic("1-E0", "2-E0"), math.hypot(1.5 - 2.3, 1.6 - 2.4) / speed, rel_tol=1e-6)
 
-
+@pytest.mark.skip(reason="priorities removed from (obligatory) properties. Use this test when considering optional parameters.")
 def test_priority_factor():
     dp = MfnDataProvider(current_path / "MFN_example.xlsx", fleet="Roboter",
                          priority_factor=lambda x: x * x if x is not None else 0.5)

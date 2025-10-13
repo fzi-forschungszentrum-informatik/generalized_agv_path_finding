@@ -20,3 +20,6 @@ LIF_spec.pdf
 /tests/**/*.ch
 /tests/**/*.graph
 /tests/**/*.pbf
+
+#open Excel file
+~*.xlsx

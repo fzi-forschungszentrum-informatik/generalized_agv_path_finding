@@ -1,11 +1,17 @@
 import math
 import pathlib
 
+import pandas
 from openpyxl import load_workbook
 
 from .connection import Connection
 from .node import Node
 from .path import Path
+
+
+def _read_float(value: float) -> float:
+    # reading excel sometimes moves integers a little (for some reason), correct this
+    return round(value) if math.isclose(round(value), value, rel_tol=1e-9) else value
 
 
 class MFN:
@@ -24,17 +30,25 @@ class MFN:
 
         wb = load_workbook(path, read_only=True)
 
-        for sheet in ["NetworkNodes", "NetworkPaths", "NetworkConnections"]:
+        for sheet in ["NetworkNodes", "NetworkPaths", "NetworkConnections"]: #TODO add sheet fleets
             if sheet not in wb.sheetnames:
                 raise ValueError(f"MFN file needs a sheet called '{sheet}'")
 
-        for row in wb["NetworkNodes"].iter_rows(min_row=4, values_only=True):
-            # reading excel sometimes moves integers a little (for some reason), correct this
-            self.nodes.append(Node(*[round(x) if isinstance(x, float) and math.isclose(round(x), x, rel_tol=1e-9) else x
-                                     for x in row[:7]]))
+        df = pandas.read_excel(self.path, sheet_name="NetworkNodes", usecols=["name", "x_meter", "y_meter", "z_meter"], skiprows=range(1, 3), header=0)
+        for index, row in df.iterrows():
+            self.nodes.append(Node(name=row["name"], x_meter=_read_float(row["x_meter"]), y_meter=_read_float(row["y_meter"]), z_meter=_read_float(row["z_meter"])))
 
-        for row in wb["NetworkPaths"].iter_rows(min_row=4, values_only=True):
-            self.paths.append(Path(*row))
+        df = pandas.read_excel(self.path, sheet_name="NetworkPaths", usecols=["name", "origin_node_name", "destination_node_name", "fleets"],
+                               skiprows=range(1, 3), header=0)
+        for index, row in df.iterrows():
+            self.paths.append(
+                Path(name=row["name"], origin_node_name=row["origin_node_name"], destination_node_name=row["destination_node_name"],
+                     fleets=row["fleets"]))
 
-        for row in wb["NetworkConnections"].iter_rows(min_row=4, values_only=True):
-            self.connections.append(Connection(*row))
+        df = pandas.read_excel(self.path, sheet_name="NetworkConnections",
+                               usecols=["name", "origin_node_name", "destination_node_name", "cal_trans_duration_seconds", "fleets"],
+                               skiprows=range(1, 3), header=0)
+        for index, row in df.iterrows():
+            self.connections.append(
+                Connection(name=row["name"], origin_node_name=row["origin_node_name"], destination_node_name=row["destination_node_name"],
+                           cal_trans_duration_seconds=row["cal_trans_duration_seconds"], fleets=row["fleets"]))

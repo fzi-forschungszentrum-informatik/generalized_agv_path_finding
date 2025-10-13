@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 from auto_all import public
 
@@ -26,20 +27,20 @@ class Node:
     Z coordinate of the physical Node in meters.
     """
 
-    X: int
+    X: Optional[int] = None
     """
     X coordinate of the Node in visualization in pixels.
 
     """
-    Y: int
+    Y: Optional[int] = None
     """
     Y coordinate of the Node in visualization in pixels.
     """
 
-    network: str
+    network: Optional[str] = None
     """
     Identifier of the network this Node resides in.
-    
+
     This is usually a floor identifier.
     """
 
