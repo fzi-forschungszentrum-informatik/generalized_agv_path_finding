@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "pyroutingkit/PointLatLon.h"
+#include <cstdint>
 
 namespace fzi::routing {
 class RoutingGraph {

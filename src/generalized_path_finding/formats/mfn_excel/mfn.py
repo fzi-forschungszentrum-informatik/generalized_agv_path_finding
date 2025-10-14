@@ -53,7 +53,7 @@ class MFN:
         for index, row in df.iterrows():
             self.connections.append(
                 Connection(name=row["name"], origin_node_name=row["origin_node_name"], destination_node_name=row["destination_node_name"],
-                           cal_trans_duration_seconds=row["cal_trans_duration_seconds"], fleets=row["fleets"]))
+                           cal_trans_duration_seconds=int(row["cal_trans_duration_seconds"]), fleets=row["fleets"]))
 
         df = pandas.read_excel(self.path, sheet_name="Fleets",
                                usecols=["fleet", "avg_speed_mps"],

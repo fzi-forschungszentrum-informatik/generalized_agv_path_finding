@@ -708,8 +708,8 @@ packages:
   timestamp: 1734015193826
 - pypi: ./
   name: generalized-path-finding
-  version: 0.0.1
-  sha256: 87ed18bb474b9f14d0988f389b0de7d1a5fad45a57041cf8ca8308f3b678c6db
+  version: 0.1.0
+  sha256: 1683d85e3c7fe38036900106d04d2e329ace1773b32c21771e5b2d885856e083
   requires_dist:
   - geomdl>=5.4.0,<6
   - auto-all>=1.4.1,<2

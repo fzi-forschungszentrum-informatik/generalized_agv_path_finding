@@ -1,5 +1,6 @@
 #pragma once
 #include "pyroutingkit/PointLatLon.h"
+#include <cstdint>
 #include <vector>
 
 namespace fzi::routing {
