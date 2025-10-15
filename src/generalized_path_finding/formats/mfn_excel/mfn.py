@@ -36,24 +36,38 @@ class MFN:
             if sheet not in wb.sheetnames:
                 raise ValueError(f"MFN file needs a sheet called '{sheet}'")
 
-        df = pandas.read_excel(self.path, sheet_name="NetworkNodes", usecols=["name", "x_meter", "y_meter", "z_meter"], header=0)
+        df = pandas.read_excel(self.path, sheet_name="NetworkNodes",
+                               usecols=["name", "x_meter", "y_meter", "z_meter", "network"], header=0)
         for index, row in df.iterrows():
-            self.nodes.append(Node(name=row["name"], x_meter=_read_float(row["x_meter"]), y_meter=_read_float(row["y_meter"]), z_meter=_read_float(row["z_meter"])))
+            self.nodes.append(
+                Node(name=row["network"].lower() + "~" + row["name"].lower(), x_meter=_read_float(row["x_meter"]),
+                     y_meter=_read_float(row["y_meter"]), z_meter=_read_float(row["z_meter"]),
+                     network=row["network"].lower()))
 
-        df = pandas.read_excel(self.path, sheet_name="NetworkPaths", usecols=["name", "origin_node_name", "destination_node_name", "fleets"],
+        df = pandas.read_excel(self.path, sheet_name="NetworkPaths",
+                               usecols=["name", "origin_node_name", "destination_node_name", "fleets", "network"],
                                header=0)
         for index, row in df.iterrows():
             self.paths.append(
-                Path(name=row["name"], origin_node_name=row["origin_node_name"], destination_node_name=row["destination_node_name"],
-                     fleets=row["fleets"]))
+                Path(name=row["network"].lower() + "~" + row["name"].lower(),
+                     origin_node_name=row["network"].lower() + "~" + row["origin_node_name"].lower(),
+                     destination_node_name=row["network"].lower() + "~" + row["destination_node_name"].lower(),
+                     fleets=row["fleets"], network=row["network"].lower()))
 
         df = pandas.read_excel(self.path, sheet_name="NetworkConnections",
-                               usecols=["name", "origin_node_name", "destination_node_name", "cal_trans_duration_seconds", "fleets"],
+                               usecols=["name", "origin_node_name", "destination_node_name",
+                                        "cal_trans_duration_seconds", "fleets", "origin_network",
+                                        "destination_network"],
                                header=0)
         for index, row in df.iterrows():
             self.connections.append(
-                Connection(name=row["name"], origin_node_name=row["origin_node_name"], destination_node_name=row["destination_node_name"],
-                           cal_trans_duration_seconds=int(row["cal_trans_duration_seconds"]), fleets=row["fleets"]))
+                Connection(name=row["name"],
+                           origin_node_name=row["origin_network"].lower() + "~" + row["origin_node_name"].lower(),
+                           destination_node_name=row["destination_network"].lower() + "~" + row[
+                               "destination_node_name"].lower(),
+                           cal_trans_duration_seconds=int(row["cal_trans_duration_seconds"]), fleets=row["fleets"],
+                           origin_network=row["origin_network"].lower(),
+                           destination_network=row["destination_network"].lower()))
 
         df = pandas.read_excel(self.path, sheet_name="Fleets",
                                usecols=["fleet", "avg_speed_mps"],

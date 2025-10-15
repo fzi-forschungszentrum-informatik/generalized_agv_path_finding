@@ -37,7 +37,7 @@ class Path:
     A pipe ("|") separated list of identifiers of the types of vehicles that can travers this Path.
     """
 
-    network: Optional[str] = None
+    network: str
     """
     Identifier of the network this Node resides in.
     

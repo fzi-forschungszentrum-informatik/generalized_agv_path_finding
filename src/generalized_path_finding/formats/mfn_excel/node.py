@@ -9,7 +9,7 @@ from auto_all import public
 class Node:
     name: str
     """
-    Unique identifier of the Node.
+    Unique identifier of the Node. Constists of name and network.
     """
 
     x_meter: float
@@ -27,6 +27,13 @@ class Node:
     Z coordinate of the physical Node in meters.
     """
 
+    network: str
+    """
+    Identifier of the network this Node resides in.
+
+    This is usually a floor identifier.
+    """
+
     X: Optional[int] = None
     """
     X coordinate of the Node in visualization in pixels.
@@ -37,11 +44,5 @@ class Node:
     Y coordinate of the Node in visualization in pixels.
     """
 
-    network: Optional[str] = None
-    """
-    Identifier of the network this Node resides in.
-
-    This is usually a floor identifier.
-    """
 
     # the rest of the fields is just for visualizations

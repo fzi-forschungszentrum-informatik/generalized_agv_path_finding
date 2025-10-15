@@ -46,12 +46,12 @@ def test_create_path_finder_for_mfn_and_astar():
     algo = create_path_finder(data_provider, Algorithm.A_STAR)
     assert isinstance(algo, AStar)
 
-    p = algo.find_shortest_path("3-E0", "1-E1")
+    p = algo.find_shortest_path("network1~3-e0", "network2~1-e1")
 
     assert p is not None
     assert math.isclose(p.cost, DIST_1_2 + DIST_2_3, rel_tol=1e-6)
-    assert p.nodes == ['3-E0', '2-E0', '1-E0', '1-E1']
-    assert p.edges == ['Path_2B', 'Path_1B', 'Connection1']
+    assert p.nodes == ['network1~3-e0', 'network1~2-e0', 'network1~1-e0', 'network2~1-e1']
+    assert p.edges == ['network1~path_2b', 'network1~path_1b', 'Connection1']
 
 
 def test_create_path_finder_for_mfn_and_routing_kit():
@@ -61,11 +61,11 @@ def test_create_path_finder_for_mfn_and_routing_kit():
     assert isinstance(algo, PathFinder)
     assert isinstance(algo, NxRoutingKit)  # maybe too specific
 
-    p = algo.find_shortest_path("3-E0", "1-E1")
+    p = algo.find_shortest_path("network1~3-e0", "network2~1-e1")
     assert p is not None
     assert math.isclose(p.cost, DIST_1_2 + DIST_2_3, rel_tol=1e-6)
-    assert p.nodes == ['3-E0', '2-E0', '1-E0', '1-E1']
-    assert p.edges == ['Path_2B', 'Path_1B', 'Connection1']
+    assert p.nodes == ['network1~3-e0', 'network1~2-e0', 'network1~1-e0', 'network2~1-e1']
+    assert p.edges == ['network1~path_2b', 'network1~path_1b', 'Connection1']
 
 
 def test_create_path_finder_for_osm_and_routing_kit():

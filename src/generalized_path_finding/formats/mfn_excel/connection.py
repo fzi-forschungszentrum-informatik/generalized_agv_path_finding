@@ -38,6 +38,16 @@ class Connection:
     Identifiers of types do not start or end with white whitespace, so arbitrary whitespace is allowed around "|". 
     """
 
+    origin_network: str
+    """
+    The identifier of the network the origin node resides in.
+    """
+
+    destination_network: str
+    """
+    The identifier of the network the destination node resides in.
+    """
+
     name: str
     """
     A unique identifier for the Connection.
@@ -48,15 +58,6 @@ class Connection:
 
     origin_controls: Optional[str] = None
 
-    origin_network: Optional[str] = None
-    """
-    The identifier of the network the origin node resides in.
-    """
-
-    destination_network: Optional[str] = None
-    """
-    The identifier of the network the destination node resides in.
-    """
 
     description: Optional[str] = None
 

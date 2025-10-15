@@ -18,14 +18,14 @@ def test_graph_structure():
     graph = dp.get_networkx_data().graph
 
     assert isinstance(graph, MultiDiGraph)
-    assert set(graph.nodes) == {'1-E0', '2-E0', '3-E0', '1-E1'}
+    assert set(graph.nodes) == {'network1~1-e0', 'network1~2-e0', 'network1~3-e0', 'network2~1-e1'}
     assert set(graph.edges) == {
-        ('1-E0', '2-E0', 'Path_1A'),
-        ('2-E0', '1-E0', 'Path_1B'),
-        ('2-E0', '3-E0', 'Path_2A'),
-        ('3-E0', '2-E0', 'Path_2B'),
-        ('1-E0', '1-E1', 'Connection1'),
-        ('1-E1', '1-E0', 'Connection1')
+        ('network1~1-e0', 'network1~2-e0', 'network1~path_1a'),
+        ('network1~2-e0', 'network1~1-e0', 'network1~path_1b'),
+        ('network1~2-e0', 'network1~3-e0', 'network1~path_2a'),
+        ('network1~3-e0', 'network1~2-e0', 'network1~path_2b'),
+        ('network1~1-e0', 'network2~1-e1', 'Connection1'),
+        ('network2~1-e1', 'network1~1-e0', 'Connection2')
     }
 
 
@@ -33,12 +33,12 @@ def test_edge_weights():
     dp = MfnDataProvider(current_path / "MFN_example.xlsx", fleet="Roboter")
     graph = dp.get_networkx_data().graph
 
-    assert math.isclose(graph.edges['1-E0', '2-E0', 'Path_1A']['weight'], DIST_1_2, rel_tol=1e-6)
-    assert math.isclose(graph.edges['2-E0', '1-E0', 'Path_1B']['weight'], DIST_1_2, rel_tol=1e-6)
-    assert math.isclose(graph.edges['2-E0', '3-E0', 'Path_2A']['weight'], DIST_2_3, rel_tol=1e-6)
-    assert math.isclose(graph.edges['3-E0', '2-E0', 'Path_2B']['weight'], DIST_2_3, rel_tol=1e-6)
-    assert graph.edges['1-E0', '1-E1', 'Connection1']['weight'] == 0
-    assert graph.edges['1-E1', '1-E0', 'Connection1']['weight'] == 0
+    assert math.isclose(graph.edges['network1~1-e0', 'network1~2-e0', 'network1~path_1a']['weight'], DIST_1_2, rel_tol=1e-6)
+    assert math.isclose(graph.edges['network1~2-e0', 'network1~1-e0', 'network1~path_1b']['weight'], DIST_1_2, rel_tol=1e-6)
+    assert math.isclose(graph.edges['network1~2-e0', 'network1~3-e0', 'network1~path_2a']['weight'], DIST_2_3, rel_tol=1e-6)
+    assert math.isclose(graph.edges['network1~3-e0', 'network1~2-e0', 'network1~path_2b']['weight'], DIST_2_3, rel_tol=1e-6)
+    assert graph.edges['network1~1-e0', 'network2~1-e1', 'Connection1']['weight'] == 0
+    assert graph.edges['network2~1-e1', 'network1~1-e0', 'Connection2']['weight'] == 0
 
 
 def test_with_time_cost():
@@ -48,12 +48,12 @@ def test_with_time_cost():
     graph = dp.get_networkx_data().graph
 
     assert isinstance(graph, MultiDiGraph)
-    assert math.isclose(graph.edges['1-E0', '2-E0', 'Path_1A']['weight'], DIST_1_2 / speed, rel_tol=1e-6)
-    assert math.isclose(graph.edges['2-E0', '1-E0', 'Path_1B']['weight'], DIST_1_2 / speed, rel_tol=1e-6)
-    assert math.isclose(graph.edges['2-E0', '3-E0', 'Path_2A']['weight'], DIST_2_3 / speed, rel_tol=1e-6)
-    assert math.isclose(graph.edges['3-E0', '2-E0', 'Path_2B']['weight'], DIST_2_3 / speed, rel_tol=1e-6)
-    assert graph.edges['1-E0', '1-E1', 'Connection1']['weight'] == 90
-    assert graph.edges['1-E1', '1-E0', 'Connection1']['weight'] == 90
+    assert math.isclose(graph.edges['network1~1-e0', 'network1~2-e0', 'network1~path_1a']['weight'], DIST_1_2 / speed, rel_tol=1e-6)
+    assert math.isclose(graph.edges['network1~2-e0', 'network1~1-e0', 'network1~path_1b']['weight'], DIST_1_2 / speed, rel_tol=1e-6)
+    assert math.isclose(graph.edges['network1~2-e0', 'network1~3-e0', 'network1~path_2a']['weight'], DIST_2_3 / speed, rel_tol=1e-6)
+    assert math.isclose(graph.edges['network1~3-e0', 'network1~2-e0', 'network1~path_2b']['weight'], DIST_2_3 / speed, rel_tol=1e-6)
+    assert graph.edges['network1~1-e0', 'network2~1-e1', 'Connection1']['weight'] == 90
+    assert graph.edges['network2~1-e1', 'network1~1-e0', 'Connection2']['weight'] == 90
 
 
 def test_impute_fleet():
@@ -74,24 +74,24 @@ def test_multiple_vehicles():
     graph_robot = dp_robot.get_networkx_data().graph
 
     assert isinstance(graph_robot, MultiDiGraph)
-    assert set(graph_robot.nodes) == {'1-E0', '2-E0', '3-E0', '1-E1'}
+    assert set(graph_robot.nodes) == {'network1~1-e0', 'network1~2-e0', 'network1~3-e0', 'network2~1-e1'}
     assert set(graph_robot.edges) == {
-        ('1-E0', '2-E0', 'Path_1A'),
-        ('2-E0', '1-E0', 'Path_1B'),
-        ('2-E0', '3-E0', 'Path_2A'),
-        ('3-E0', '2-E0', 'Path_2B'),
-        ('1-E0', '1-E1', 'Connection1'),
-        ('1-E1', '1-E0', 'Connection1')
+        ('network1~1-e0', 'network1~2-e0', 'network1~path_1a'),
+        ('network1~2-e0', 'network1~1-e0', 'network1~path_1b'),
+        ('network1~2-e0', 'network1~3-e0', 'network1~path_2a'),
+        ('network1~3-e0', 'network1~2-e0', 'network1~path_2b'),
+        ('network1~1-e0', 'network2~1-e1', 'Connection1'),
+        ('network2~1-e1', 'network1~1-e0', 'Connection2')
     }
 
     dp_pedestrian = MfnDataProvider(current_path / "MFN_example.xlsx", fleet="Besucher")
     graph_pedestrian = dp_pedestrian.get_networkx_data().graph
 
     assert isinstance(graph_pedestrian, MultiDiGraph)
-    assert set(graph_pedestrian.nodes) == {'1-E0', '2-E0', '3-E0', '1-E1'}
+    assert set(graph_pedestrian.nodes) == {'network1~1-e0', 'network1~2-e0', 'network1~3-e0', 'network2~1-e1'}
     assert set(graph_pedestrian.edges) == {
-        ('1-E0', '1-E1', 'Connection1'),
-        ('1-E1', '1-E0', 'Connection1')
+        ('network1~1-e0', 'network2~1-e1', 'Connection1'),
+        ('network2~1-e1', 'network1~1-e0', 'Connection2')
     }
 
     # no fleet given while there are multiple fleets in the file
@@ -108,8 +108,8 @@ def test_heuristic():
     heuristic = dp.get_networkx_data().heuristic
 
     assert callable(heuristic)
-    # Test heuristic between nodes 1-E0 and 2-E0
-    assert math.isclose(heuristic("1-E0", "2-E0"), DIST_1_2, rel_tol=1e-6)
+    # Test heuristic between nodes network1~1-e0 and network1~2-e0
+    assert math.isclose(heuristic("network1~1-e0", "network1~2-e0"), DIST_1_2, rel_tol=1e-6)
 
 
 def test_heuristic_with_time_cost():
@@ -121,8 +121,8 @@ def test_heuristic_with_time_cost():
     heuristic = dp.get_networkx_data().heuristic
 
     assert callable(heuristic)
-    # Test heuristic between nodes 1-E0 and 2-E0 with time cost
-    assert math.isclose(heuristic("1-E0", "2-E0"), math.hypot(1.5 - 2.3, 1.6 - 2.4) / speed, rel_tol=1e-6)
+    # Test heuristic between nodes network1~1-e0 and network1~2-e0 with time cost
+    assert math.isclose(heuristic("network1~1-e0", "network1~2-e0"), math.hypot(1.5 - 2.3, 1.6 - 2.4) / speed, rel_tol=1e-6)
 
 @pytest.mark.skip(reason="priorities removed from (obligatory) properties. Use this test when considering optional parameters.")
 def test_priority_factor():
@@ -130,20 +130,20 @@ def test_priority_factor():
                          priority_factor=lambda x: x * x if x is not None else 0.5)
     graph = dp.get_networkx_data().graph
 
-    assert math.isclose(graph.edges['1-E0', '2-E0', 'Path_1A']['weight'], DIST_1_2, rel_tol=1e-6)
-    assert math.isclose(graph.edges['2-E0', '1-E0', 'Path_1B']['weight'], DIST_1_2, rel_tol=1e-6)
-    assert math.isclose(graph.edges['2-E0', '3-E0', 'Path_2A']['weight'], DIST_2_3 * 4, rel_tol=1e-6)
-    assert math.isclose(graph.edges['3-E0', '2-E0', 'Path_2B']['weight'], DIST_2_3 * 0.5,
+    assert math.isclose(graph.edges['network1~1-e0', 'network1~2-e0', 'network1~path_1a']['weight'], DIST_1_2, rel_tol=1e-6)
+    assert math.isclose(graph.edges['network1~2-e0', 'network1~1-e0', 'network1~path_1b']['weight'], DIST_1_2, rel_tol=1e-6)
+    assert math.isclose(graph.edges['network1~2-e0', 'network1~3-e0', 'network1~path_2a']['weight'], DIST_2_3 * 4, rel_tol=1e-6)
+    assert math.isclose(graph.edges['network1~3-e0', 'network1~2-e0', 'network1~path_2b']['weight'], DIST_2_3 * 0.5,
                         rel_tol=1e-6)  # no priority given
 
     # no priority factor mapping given, ignore priority
     dp = MfnDataProvider(current_path / "MFN_example.xlsx", fleet="Roboter")
     graph = dp.get_networkx_data().graph
 
-    assert math.isclose(graph.edges['1-E0', '2-E0', 'Path_1A']['weight'], DIST_1_2, rel_tol=1e-6)
-    assert math.isclose(graph.edges['2-E0', '1-E0', 'Path_1B']['weight'], DIST_1_2, rel_tol=1e-6)
-    assert math.isclose(graph.edges['2-E0', '3-E0', 'Path_2A']['weight'], DIST_2_3, rel_tol=1e-6)
-    assert math.isclose(graph.edges['3-E0', '2-E0', 'Path_2B']['weight'], DIST_2_3, rel_tol=1e-6)  # no priority given
+    assert math.isclose(graph.edges['network1~1-e0', 'network1~2-e0', 'network1~path_1a']['weight'], DIST_1_2, rel_tol=1e-6)
+    assert math.isclose(graph.edges['network1~2-e0', 'network1~1-e0', 'network1~path_1b']['weight'], DIST_1_2, rel_tol=1e-6)
+    assert math.isclose(graph.edges['network1~2-e0', 'network1~3-e0', 'network1~path_2a']['weight'], DIST_2_3, rel_tol=1e-6)
+    assert math.isclose(graph.edges['network1~3-e0', 'network1~2-e0', 'network1~path_2b']['weight'], DIST_2_3, rel_tol=1e-6)  # no priority given
 
 
 def test_heuristic_with_priority():
@@ -153,4 +153,4 @@ def test_heuristic_with_priority():
     heuristic = dp.get_networkx_data().heuristic
 
     assert callable(heuristic)
-    assert math.isclose(heuristic("1-E0", "2-E0"), DIST_1_2 * 2, rel_tol=1e-6)
+    assert math.isclose(heuristic("network1~1-e0", "network1~2-e0"), DIST_1_2 * 2, rel_tol=1e-6)

@@ -16,22 +16,22 @@ def test_parsing():
     mfn = MFN(current_path / "MFN_example.xlsx")
 
     assert mfn.nodes == [
-        Node(name='1-E0', x_meter=1.5, y_meter=1.6, z_meter=0),
-        Node(name='2-E0', x_meter=2.3, y_meter=2.4, z_meter=0),
-        Node(name='3-E0', x_meter=3, y_meter=2.4, z_meter=0),
-        Node(name='1-E1', x_meter=1.5, y_meter=1.6, z_meter=0)]
+        Node(name='network1~1-e0', x_meter=1.5, y_meter=1.6, z_meter=0, network='network1'),
+        Node(name='network1~2-e0', x_meter=2.3, y_meter=2.4, z_meter=0, network='network1'),
+        Node(name='network1~3-e0', x_meter=3, y_meter=2.4, z_meter=0, network='network1'),
+        Node(name='network2~1-e1', x_meter=1.5, y_meter=1.6, z_meter=0, network='network2'),]
 
     assert mfn.paths == [
-        Path(name='Path_1A', origin_node_name='1-E0', destination_node_name='2-E0', fleets='Roboter'),
-        Path(name='Path_1B', origin_node_name='2-E0', destination_node_name='1-E0', fleets='Roboter'),
-        Path(name='Path_2A', origin_node_name='2-E0', destination_node_name='3-E0', fleets='Roboter'),
-        Path(name='Path_2B', origin_node_name='3-E0', destination_node_name='2-E0', fleets='Roboter')]
+        Path(name='network1~path_1a', origin_node_name='network1~1-e0', destination_node_name='network1~2-e0', fleets='Roboter', network='network1'),
+        Path(name='network1~path_1b', origin_node_name='network1~2-e0', destination_node_name='network1~1-e0', fleets='Roboter', network='network1'),
+        Path(name='network1~path_2a', origin_node_name='network1~2-e0', destination_node_name='network1~3-e0', fleets='Roboter', network='network1'),
+        Path(name='network1~path_2b', origin_node_name='network1~3-e0', destination_node_name='network1~2-e0', fleets='Roboter', network='network1')]
 
     assert mfn.connections == [
-        Connection(name='Connection1', origin_node_name='1-E0', destination_node_name='1-E1',
-                   cal_trans_duration_seconds=90, fleets='Roboter | Besucher'),
-        Connection(name='Connection1', origin_node_name='1-E1', destination_node_name='1-E0',
-                   cal_trans_duration_seconds=90, fleets='Roboter | Besucher')]
+        Connection(name='Connection1', origin_node_name='network1~1-e0', destination_node_name='network2~1-e1',
+                   cal_trans_duration_seconds=90, fleets='Roboter | Besucher', origin_network='network1', destination_network='network2'),
+        Connection(name='Connection2', origin_node_name='network2~1-e1', destination_node_name='network1~1-e0',
+                   cal_trans_duration_seconds=90, fleets='Roboter | Besucher', origin_network='network2', destination_network='network1'),]
 
     assert mfn.fleets == [Fleet(name='Roboter', avg_speed_mps=0.5), Fleet(name='Besucher', avg_speed_mps=0.4)]
 
@@ -46,6 +46,6 @@ def test_parsing_with_different_order_and_additional_columns():
     mfn = MFN(current_path / "MFN_changed_order.xlsx")
 
     assert mfn.nodes == [
-        Node(name='NodeA', x_meter=20.0, y_meter=30.0, z_meter=0),
-        Node(name='NodeB', x_meter=50.0, y_meter=30.0, z_meter=0),
-        Node(name='NodeC', x_meter=80.0, y_meter=30.0, z_meter=0)]
+        Node(name='network1~nodea', x_meter=20.0, y_meter=30.0, z_meter=0, network="network1"),
+        Node(name='network1~nodeb', x_meter=50.0, y_meter=30.0, z_meter=0, network="network1"),
+        Node(name='network1~nodec', x_meter=80.0, y_meter=30.0, z_meter=0, network="network1")]
