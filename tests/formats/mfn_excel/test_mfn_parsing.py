@@ -35,6 +35,27 @@ def test_parsing():
 
     assert mfn.fleets == [Fleet(name='Roboter', avg_speed_mps=0.5), Fleet(name='Besucher', avg_speed_mps=0.4)]
 
+#test that int node names are still read as strings
+def test_parsing_with_int_node_names():
+    mfn = MFN(current_path / "MFN_example_int.xlsx")
+
+    assert mfn.nodes == [
+        Node(name='network1~1', x_meter=1.5, y_meter=1.6, z_meter=0, network='network1'),
+        Node(name='network1~2', x_meter=2.3, y_meter=2.4, z_meter=0, network='network1'),
+        Node(name='network1~3', x_meter=3, y_meter=2.4, z_meter=0, network='network1'),
+        Node(name='network2~4', x_meter=1.5, y_meter=1.6, z_meter=0, network='network2'), ]
+
+    assert mfn.paths == [
+        Path(name='network1~path_1a', origin_node_name='network1~1', destination_node_name='network1~2',
+             fleets='Roboter', network='network1'),
+        Path(name='network1~path_1b', origin_node_name='network1~2', destination_node_name='network1~1',
+             fleets='Roboter', network='network1'),
+        Path(name='network1~path_2a', origin_node_name='network1~2', destination_node_name='network1~3',
+             fleets='Roboter', network='network1'),
+        Path(name='network1~path_2b', origin_node_name='network1~3', destination_node_name='network1~2',
+             fleets='Roboter', network='network1')]
+
+
 
 def test_missing_sheet():
     with pytest.raises(ValueError) as e:

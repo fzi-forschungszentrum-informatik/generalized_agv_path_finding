@@ -37,7 +37,9 @@ class MFN:
                 raise ValueError(f"MFN file needs a sheet called '{sheet}'")
 
         df = pandas.read_excel(self.path, sheet_name="NetworkNodes",
-                               usecols=["name", "x_meter", "y_meter", "z_meter", "network"], header=0)
+                               usecols=["name", "x_meter", "y_meter", "z_meter", "network"],
+                               dtype={"name": str, "network": str},
+                               header=0)
         for index, row in df.iterrows():
             self.nodes.append(
                 Node(name=row["network"].lower() + "~" + row["name"].lower(), x_meter=_read_float(row["x_meter"]),
@@ -46,6 +48,7 @@ class MFN:
 
         df = pandas.read_excel(self.path, sheet_name="NetworkPaths",
                                usecols=["name", "origin_node_name", "destination_node_name", "fleets", "network"],
+                               dtype={"name": str, "origin_node_name": str, "destination_node_name": str, "network": str},
                                header=0)
         for index, row in df.iterrows():
             self.paths.append(
