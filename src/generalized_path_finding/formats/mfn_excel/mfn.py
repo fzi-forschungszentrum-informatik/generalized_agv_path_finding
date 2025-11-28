@@ -61,6 +61,7 @@ class MFN:
                                usecols=["name", "origin_node_name", "destination_node_name",
                                         "cal_trans_duration_seconds", "fleets", "origin_network",
                                         "destination_network"],
+                               dtype={"name": str, "origin_node_name": str, "destination_node_name": str, "origin_network": str, "destination_network": str},
                                header=0)
         for index, row in df.iterrows():
             self.connections.append(
