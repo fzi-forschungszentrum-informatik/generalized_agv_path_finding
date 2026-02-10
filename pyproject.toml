@@ -13,7 +13,6 @@ dependencies = [
     "auto-all>=1.4.1,<2",
     "networkx~=3.5",
     "pytest>=8.4.0,<9",
-    "pyrosm>=0.6.2,<0.7",
     "beartype==0.21.0",
     "certifi>=2025.7.9",
     "colorama==0.4.6",
@@ -44,7 +43,6 @@ dependencies = [
     "pyogrio==0.11.0",
     "pyparsing==3.2.3",
     "pyproj>=3.7.1",
-    "pyrobuf==0.9.3",
     "python-dateutil==2.9.0.post0",
     "python-rapidjson==1.21",
     "pytz==2025.2",
@@ -55,6 +53,9 @@ dependencies = [
     "tzdata>=2025.2",
 ]
 requires-python = "~=3.13"
+
+[project.optional-dependencies]
+osm = ["pyrosm>=0.6.2,<0.7", "pyrobuf==0.9.3",]
 
 [build-system]
 build-backend = "hatchling.build"
