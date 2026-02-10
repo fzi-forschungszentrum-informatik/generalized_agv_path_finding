@@ -8,8 +8,10 @@ beartype_this_package(conf=BeartypeConf(is_pep484_tower=True))
 
 start_all()
 from .model import Path, PathFinder
-from .formats import LifDataProvider, MfnDataProvider, OsmDataProvider
-from .algorithms import AStar, RoutingKit, NxRoutingKit, OsmRoutingKit
+# from .formats import LifDataProvider, MfnDataProvider, OsmDataProvider
+from .formats import LifDataProvider, MfnDataProvider #experimental setup
+# from .algorithms import AStar, RoutingKit, NxRoutingKit, OsmRoutingKit
+from .algorithms import AStar, RoutingKit, NxRoutingKit
 from .helper import create_path_finder, Algorithm
 
 end_all()
